@@ -1,3 +1,5 @@
+#include "serial.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,8 +7,7 @@
 #include <fcntl.h>
 #include <termios.h>
 #include <errno.h>
-
-#include "serial.h"
+#include <fcntl.h>
 
 #define SERIAL_DEVICE "/dev/ttyS1"  // Change this to your serial device
 
@@ -18,7 +19,7 @@ int setup_serial(bool is_hw_flow_control) {
     }
 
     struct termios options;
-    tcgetattr(serial_fd, &ptions);
+    tcgetattr(serial_fd, &options);
     cfsetispeed(&options, B115200); // Set the baud rate (adjust as needed)
     cfsetospeed(&options, B115200); // Set the baud rate (adjust as needed)
     options.c_cflag |= (CLOCAL | CREAD);
