@@ -1,0 +1,5 @@
+[submodule "mtlsgateway/mbedtls"]
+	path = mtlsgateway/mbedtls
+	url = https://github.com/Mbed-TLS/mbedtls
+[submodule "mbedtls"]
+	branch = v3.5.1
