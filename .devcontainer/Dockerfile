@@ -7,7 +7,7 @@ RUN apt-get update \
 RUN mkdir -p /opt/realtek \
  && curl -L https://sourceforge.net/projects/rtl819x/files/rtl819x-SDK-v3.4.7.3-full-package.tar.gz | tar xvz -C /opt/realtek
 
-RUN apt-get install -y git perl python3 build-essential gcc-multilib gcc make ncurses-term \
+RUN apt-get install -y git perl python3-full build-essential gcc-multilib gcc make ncurses-term lib32z1 \
  && rm -rf /var/lib/apt/lists/*
 
 # split to keep download step in separate layer
