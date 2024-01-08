@@ -1,8 +1,8 @@
 {
     "build": { 
       "dockerfile": "Dockerfile", 
-      "args":  { "platform": "linux/amd64" }
     },
+    "runArgs": [ "--platform=linux/amd64" ],
     "customizations": {
       "vscode": {
         "extensions": ["ms-vscode.cpptools-extension-pack"]
