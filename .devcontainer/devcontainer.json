@@ -1,11 +1,16 @@
 {
     "build": { 
-      "dockerfile": "Dockerfile", 
+      "dockerfile": "Dockerfile",
     },
     "runArgs": [ "--platform=linux/amd64" ],
     "customizations": {
       "vscode": {
+        "settings": {
+          "python.terminal.activateEnvInCurrentTerminal": true,
+          "python.defaultInterpreterPath": ".venv/bin/python3",  
+        },
         "extensions": ["ms-vscode.cpptools-extension-pack"]
       }
     },
+    "postCreateCommand": "./pyvenv.sh"
 }
