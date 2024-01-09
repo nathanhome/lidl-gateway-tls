@@ -1,0 +1,34 @@
+== mTLS-your-silvercrest
+This project extends the solution to free the Silvercrest (Lidl/Tuya) Smart Home Gateway 
+from the cloud by securing the ethernet connection by mTLS. This avoids expose of
+your gateway to any users/guests in your network - and secures the gateway solution professionally.
+
+Upstreams:
+* https://paulbanks.org/projects/lidl-zigbee/
+* https://github.com/Ordspilleren/lidl-gateway-freedom
+* https://community.openhab.org/t/hacking-the-lidl-silvercrest-zigbee-gateway-a-step-by-step-tutorial/129660
+
+== Generate a pair of self-signed certificates
+-----
+-----
+
+== Use socat to connect to gateway as regular device
+
+You can check whether your `socat` supports SSL by:
+-----
+socat -V |grep SSL
+-----
+
+On the gateway client, you can use `socat` to establish the mTLS secured connection.
+It is acting as client, so the connection requires client ke and certificate for authentication.
+`socat` demands a combined pem file for the client, that could be generated like: 
+-----
+cat client.key client.crt >client.pem
+-----
+
+Then, the connection is established with:
+-----
+socat -dd pty,link=/dev/ttyZigate1,raw,user-late=zwgate,group-late=dialout \
+      openssl-connect:zigate.my.domain:4888,cert=path_to/client.pem,cafile=path_to/server.pem
+-----
+It is recommended to run `socat` as service with automatic restart or as restarting container.
