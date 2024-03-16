@@ -9,6 +9,8 @@
 #include <errno.h>
 #include <fcntl.h>
 
+#include "util.h"
+
 #define SERIAL_DEVICE "/dev/ttyS1"  // Change this to your serial device
 
 int setup_serial(bool is_hw_flow_control) {
@@ -48,10 +50,10 @@ void close_serial(int serial_fd) {
     close(serial_fd);
 }
 
-ssize_t read_serial(int serial_fd, unsigned char *buf, size_t count) {
+ssize_t read_serial(int serial_fd, void *buf, size_t count) {
     return read(serial_fd, buf, count);
 }
 
-ssize_t write_serial(int serial_fd, unsigned char *buf, size_t count) {
+ssize_t write_serial(int serial_fd, const void *buf, size_t count) {
     return write(serial_fd, buf, count);
 }
