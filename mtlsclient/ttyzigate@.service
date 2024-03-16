@@ -1,0 +1,17 @@
+[Unit]
+Description=Serial to Zigbee gateway
+After=network.target ttyzigate.service
+Wants=ttyzigate.service
+
+[Service]
+Type=simple
+ExecStart=socat -dd pty,link=/dev/ttyZigate1,raw,mode=660,user-late=root,group-late=dialout tcp:zigatekeeper:8888
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+User=%i
+Restart=on-failure
+RestartPreventExitStatus=255
+
+[Install]
+WantedBy=multi-user.target
+
