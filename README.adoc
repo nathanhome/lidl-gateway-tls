@@ -20,7 +20,7 @@ socat -V |grep SSL
 -----
 
 On the gateway client, you can use `socat` to establish the mTLS secured connection.
-It is acting as client, so the connection requires client ke and certificate for authentication.
+It is acting as client, so the connection requires client key and certificate for authentication.
 `socat` demands a combined pem file for the client, that could be generated like: 
 -----
 cat client.key client.crt >client.pem
@@ -29,6 +29,20 @@ cat client.key client.crt >client.pem
 Then, the connection is established with:
 -----
 socat -dd pty,link=/dev/ttyZigate1,raw,user-late=zwgate,group-late=dialout \
-      openssl-connect:zigate.my.domain:4888,cert=path_to/client.pem,cafile=path_to/server.pem
+      openssl-connect:zigate.my.domain:4888,cert=path_to/client.pem,cafile=path_to/gwserver.pem
 -----
 It is recommended to run `socat` as service with automatic restart or as restarting container.
+
+-----
+cat tlsserialgateway | ssh -p2333 root@<gateway IP address> "cat >/tuya/tlsserialgateway"
+
+# copy server key + cert
+cat gwserver.crt | ssh -o HostKeyAlgorithms=+ssh-rsa root@<gateway IP address> "cat >/etc/tls/gwserver.crt"
+cat gwserver.key | ssh -o HostKeyAlgorithms=+ssh-rsa root@<gateway IP address> "cat >/etc/tls/gwserver.key"
+cat client.crt | ssh -o HostKeyAlgorithms=+ssh-rsa root@<gateway IP address> "cat >/etc/tls/trust.crt"
+-----
+
+-----
+mkdir ~/.ssh
+dropbearkey -t ed25519 -f ~/.ssh/id_dropbear
+-----
